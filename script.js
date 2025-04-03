@@ -208,3 +208,41 @@ const animateElements = document.querySelectorAll('.animate');
 function checkIfInView() {
     const windowHeight = window.innerHeight;
     const windowTop = window.scrollY;   }
+    document.addEventListener('DOMContentLoaded', function() {
+        const gallery = document.getElementById('gallery');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeModal = document.getElementById('closeModal');
+        
+        // Fonction pour ouvrir le modal
+        function openModal() {
+            modalImg.src = this.src;
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
+        
+        // Fermer le modal
+        closeModal.addEventListener('click', function() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        });
+        
+        // Fermer le modal en cliquant en dehors de l'image
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+        });
+        
+        // Ajouter des événements click aux images
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', openModal);
+        });
+    });
