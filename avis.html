@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avis Clients - Design Bardage & Miroirs LED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header - Matching Home Page */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 15px;
+        }
+        
+        .logo a {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .logo a:hover {
+            color: #9c640c;
+        }
+        
+        .menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .menu li {
+            margin-left: 30px;
+        }
+        
+        .menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .menu a:hover, .menu a.active {
+            color: #9c640c;
+        }
+        
+        .menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #9c640c;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        /* Page Title Section */
+        .page-title {
+            background: linear-gradient(to right, #9c640c, #9c640c);
+            color: #fff;
+            padding: 70px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/pattern.svg') center/cover;
+            opacity: 0.1;
+        }
+        
+        .page-title h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .page-title p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        /* Reviews Filter */
+        .reviews-filter {
+            background-color: #fff;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-btn {
+            background: #f2f2f2;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: #9c640c;
+            color: #fff;
+        }
+        
+        .rating-stats {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .average-rating {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .rating-number {
+            font-size: 64px;
+            font-weight: 700;
+            color: #333;
+            line-height: 1;
+        }
+        
+        .stars-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stars {
+            color: #FFD700;
+            font-size: 28px;
+            letter-spacing: 5px;
+        }
+        
+        .total-reviews {
+            color: #777;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .rating-bars {
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .bar-label {
+            min-width: 80px;
+            text-align: right;
+            margin-right: 15px;
+        }
+        
+        .bar-fill {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bar-fill-inner {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: #9c640c;
+            border-radius: 4px;
+        }
+        
+        .bar-percent {
+            min-width: 60px;
+            text-align: right;
+            margin-left: 15px;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        /* Reviews Grid */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .review-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .review-header {
+            display: flex;
+            padding: 20px;
+        }
+        
+        .client-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border: 3px solid #fff;
+        }
+        
+        .client-info {
+            flex-grow: 1;
+        }
+        
+        .client-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .client-location {
+            color: #777;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .client-location i {
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        
+        .review-date {
+            color: #999;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        
+        .review-stars {
+            color: #FFD700;
+            font-size: 18px;
+            letter-spacing: 3px;
+            margin-top: 5px;
+        }
+        
+        .review-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .review-content {
+            padding: 20px;
+        }
+        
+        .review-text {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .review-project {
+            display: inline-block;
+            background: #f2f2f2;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+        
+        /* Write Review */
+        .write-review {
+            background: linear-gradient(to right, #a89370, #a89370);
+            padding: 60px 0;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .write-review h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .write-review p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #9c640c;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+        
+        .btn:hover {
+            background: #9c640c;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-outline {
+            display: inline-block;
+            background: transparent;
+            color: #9c640c;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid #9c640c;
+        }
+        
+        .btn-outline:hover {
+            background: #9c640c;
+            color: #fff;
+        }
+        
+        /* Footer - Matching Home Page */
+        footer {
+            background-color: #3f3c3a;
+            color: #fff;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {   
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-logo p {
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        .footer-contact h4, .footer-links h4, .footer-social h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-contact h4::after, .footer-links h4::after, .footer-social h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #9c640c;
+        }
+        
+        .footer-contact p {
+            margin-bottom: 10px;
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        .footer-contact i {
+            margin-right: 10px;
+            color: #9c640c;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            color: #9c640c;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: #d8ae74;
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .reviews-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                padding: 20px 0;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .menu.active {
+                display: flex;
+            }
+            
+            .menu li {
+                margin: 10px 20px;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .page-title h1 {
+                font-size: 32px;
+            }
+            
+            .page-title p {
+                font-size: 16px;
+            }
+            
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="home.html">Design Bardage & Miroirs</a>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="home.html">Accueil</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="galerie.html">Galerie</a></li>
+                    <li><a href="avis.html" class="active">Avis</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-title">
+        <div class="container">
+            <h1>Avis de nos clients</h1>
+            <p>Découvrez ce que nos clients disent de nos designs de bardage et miroirs LED</p>
+        </div>
+    </section>
+
+    <section class="reviews-filter">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active">Tous les avis</button>
+                <button class="filter-btn">Bardage</button>
+                <button class="filter-btn">Miroirs LED</button>
+                <button class="filter-btn">Plus récents</button>
+                <button class="filter-btn">Mieux notés</button>
+            </div>
+            
+            <div class="rating-stats">
+                <div class="average-rating">
+                    <div class="rating-number">4.8</div>
+                    <div class="stars-container">
+                        <div class="stars">★★★★★</div>
+                        <div class="total-reviews">Basé sur 87 avis</div>
+                    </div>
+                </div>
+                
+                <div class="rating-bars">
+                    <div class="rating-bar">
+                        <div class="bar-label">5 étoiles</div>
+                        <div class="bar-fill">
+                            <div class="bar-fill-inner" style="width: 85%;"></div>
+                        </div>
+                        <div class="bar-percent">85%</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="bar-label">4 étoiles</div>
+                        <div class="bar-fill">
+                            <div class="bar-fill-inner" style="width: 10%;"></div>
+                        </div>
+                        <div class="bar-percent">10%</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="bar-label">3 étoiles</div>
+                        <div class="bar-fill">
+                            <div class="bar-fill-inner" style="width: 5%;"></div>
+                        </div>
+                        <div class="bar-percent">5%</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="bar-label">2 étoiles</div>
+                        <div class="bar-fill">
+                            <div class="bar-fill-inner" style="width: 0%;"></div>
+                        </div>
+                        <div class="bar-percent">0%</div>
+                    </div>
+                    <div class="rating-bar">
+                        <div class="bar-label">1 étoile</div>
+                        <div class="bar-fill">
+                            <div class="bar-fill-inner" style="width: 0%;"></div>
+                        </div>
+                        <div class="bar-percent">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="reviews-grid">
+            <!-- Review 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="/api/placeholder/400/320" alt="Sophie Martin" class="client-image">
+                    <div class="client-info">
+                        <div class="client-name">Sophie Martin</div>
+                        <div class="client-location"><i class="fas fa-map-marker-alt"></i> Bordeaux</div>
+                        <div class="review-date">15 mars 2025</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <img src="/api/placeholder/400/320" alt="Projet de miroir LED" class="review-image">
+                <div class="review-content">
+                    <p class="review-text">"Notre restaurant a gagné en élégance grâce aux miroirs LED installés. L'équipe a su comprendre l'ambiance que nous voulions créer et l'a parfaitement réalisée. Le service était impeccable du début à la fin."</p>
+                    <span class="review-project">Miroir LED sur mesure</span>
+                </div>
+            </div>
+            
+            <!-- Review 2 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="/api/placeholder/400/320" alt="Thomas Laurent" class="client-image">
+                    <div class="client-info">
+                        <div class="client-name">Thomas Laurent</div>
+                        <div class="client-location"><i class="fas fa-map-marker-alt"></i> Paris</div>
+                        <div class="review-date">28 février 2025</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <img src="/api/placeholder/400/320" alt="Projet de bardage" class="review-image">
+                <div class="review-content">
+                    <p class="review-text">"Le bardage pour notre maison moderne est exactement ce que nous recherchions. Le design est contemporain et l'installation a été réalisée avec une grande attention aux détails. Nous sommes ravis du résultat final."</p>
+                    <span class="review-project">Bardage extérieur architectural</span>
+                </div>
+            </div>
+            
+            <!-- Review 3 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="/api/placeholder/400/320" alt="Marie Dupont" class="client-image">
+                    <div class="client-info">
+                        <div class="client-name">Marie Dupont</div>
+                        <div class="client-location"><i class="fas fa-map-marker-alt"></i> Lyon</div>
+                        <div class="review-date">10 avril 2025</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <img src="/api/placeholder/400/320" alt="Projet de miroir LED" class="review-image">
+                <div class="review-content">
+                    <p class="review-text">"Le miroir LED installé dans notre salle de bain a complètement transformé l'espace. Un travail de qualité exceptionnelle ! Les éclairages sont parfaitement intégrés et le rendu est élégant et fonctionnel."</p>
+                    <span class="review-project">Miroir LED salle de bain</span>
+                </div>
+            </div>
+            
+            <!-- Review 4 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="/api/placeholder/400/320" alt="Antoine Leroy" class="client-image">
+                    <div class="client-info">
+                        <div class="client-name">Antoine Leroy</div>
+                        <div class="client-location"><i class="fas fa-map-marker-alt"></i> Marseille</div>
+                        <div class="review-date">2 avril 2025</div>
+                        <div class="review-stars">★★★★☆</div>
+                    </div>
+                </div>
+                <img src="/api/placeholder/400/320" alt="Projet de bardage" class="review-image">
+                <div class="review-content">
+                    <p class="review-text">"Très satisfait du bardage intérieur pour notre salon. Le design est moderne et ajoute du caractère à la pièce. Le seul petit bémol concerne le délai qui a été un peu plus long que prévu, mais le résultat en valait la peine."</p>
+                    <span class="review-project">Bardage intérieur design</span>
+                </div>
+            </div>
+            
+            <!-- Review 5 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="/api/placeholder/400/320" alt="Julie Mercier" class="client-image">
+                    <div class="client-info">
+                        <div class="client-name">Julie Mercier</div>
+                        <div class="client-location"><i class="fas fa-map-marker-alt"></i> Toulouse</div>
+                        <div class="review-date">20 mars 2025</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <img src="/api/placeholder/400/320" alt="Projet de miroir LED" class="review-image">
+                <div class="review-content">
+                    <p class="review-text">"Design innovant et qualité irréprochable pour notre miroir LED sur mesure. Toute notre salle de bain semble maintenant plus spacieuse et lumineuse. Une transformation réussie grâce à l'expertise de l'équipe."</p>
+                    <span class="review-project">Miroir LED personnalisé</span>
+                </div>
+            </div>
+            
+            <!-- Review 6 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="/api/placeholder/400/320" alt="Pierre Blanc" class="client-image">
+                    <div class="client-info">
+                        <div class="client-name">Pierre Blanc</div>
+                        <div class="client-location"><i class="fas fa-map-marker-alt"></i> Nice</div>
+                        <div class="review-date">5 avril 2025</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <img src="/api/placeholder/400/320" alt="Projet combiné" class="review-image">
+                <div class="review-content">
+                    <p class="review-text">"Nous avons fait appel à l'équipe pour une combinaison de bardage et miroir LED dans notre entrée. Le résultat est spectaculaire ! L'accueil de notre hôtel a gagné en style et en élégance. Un grand merci pour ce travail d'exception."</p>
+                    <span class="review-project">Projet combiné bardage et miroir</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="write-review">
+        <div class="container">
+            <h2>Partagez votre expérience</h2>
+            <p>Vous avez fait appel à nos services ? Nous serions ravis de connaître votre avis sur votre expérience avec Design Bardage & Miroirs LED.</p>
+            <a href="#" class="btn">Laisser un avis</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Design Bardage & Miroirs</h3>
+                    <p>Transformez vos espaces avec nos solutions design</p>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Avenue des Arts, 75001 Paris</p>
+                    <p><i class="fas fa-phone"></i> +33 1 23 45 67 89</p>
+                    <p><i class="fas fa-envelope"></i> contact@designbardage.fr</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="home.html">Accueil</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="galerie.html">Galerie</a></li>
+                        <li><a href="avis.html">Avis</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-houzz"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Design Bardage & Miroirs LED. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const menu = document.querySelector('.menu');
+        
+        hamburger.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+        
+        // Filter buttons
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Here you would normally implement the actual filtering logic
+                // For example, filtering reviews by category, rating, etc.
+                console.log(`Filtrer par: ${btn.textContent}`);
+            });
+        });
+    </script>
+</body>
+</html>
